@@ -1,0 +1,70 @@
+import React from 'react';
+
+import NewItemForm from './NewItemForm.js';
+import GroceryItem from './GroceryItem.js';
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      items: [
+        {
+          name: "pancito",
+          number: 9,
+          purchased: false,
+        },
+        {
+          name: "donas",
+          number: 11,
+          purchased: true,
+        }
+      ]
+    }
+
+    this.addGroceryItem = this.addGroceryItem.bind(this)
+    this.toggleItem = this.toggleItem.bind(this)
+  }
+
+  addGroceryItem(groceryItem) {
+    let items = this.state.items.slice()
+    items.push(groceryItem)
+    this.setState({items: items})
+  }
+  
+toggleItem(index) {
+  let items = this.state.items.slice()
+  let item = items[index]
+  item.purchased = !item.purchased
+  this.setState({
+    items: items
+  })
+}
+
+  render() {
+    return (
+      <section className="section">
+        <div className="container is-fluid">
+          <div className="columns">
+            <div className="column is-half is offset-one-quarter">
+              <h1 className="title">Comidita rica</h1>
+
+              <NewItemForm addItem={this.addGroceryItem}/>
+
+              <div className="my-5">
+                <ul>
+                  {this.state.items.map((item, index) => (
+                    <GroceryItem key={index} item={item} toggleItem={()=> this.toggleItem(index)} />              
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    );
+  }
+}
+
+
+export default App;
